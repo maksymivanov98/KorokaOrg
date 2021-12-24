@@ -1,4 +1,4 @@
-public class ProjectTaskTriggerHandler implements ITriggerHandler{
+global class ProjectTaskTriggerHandler implements ITriggerHandler{
     
     private static final String ASSIGNEE_IS_CHANGED_TEMPLATE_NAME = 'Task_assignee_is_changed';
     private static final String STATUS_IS_CHANGED_TEMPLATE_NAME = 'Task_status_is_changed';
@@ -11,7 +11,22 @@ public class ProjectTaskTriggerHandler implements ITriggerHandler{
 
     public void beforeDelete(Map<Id, SObject> oldMap){}
 
-    public void afterInsert(Map<Id, SObject> newMap){}
+    public void afterInsert(Map<Id, SObject> newMap){
+        prepareCallout((Map<Id, Project_Task__c>)newMap);
+    }
+    
+    public void prepareCallout(Map<Id, Project_Task__c> newMap){
+        List<Id> projectList = new List<Id>();
+        for(Project_Task__c newTask : newMap.values()){
+            projectList.add(newMap.get(newTask.id).id);
+        }
+        sendRequest(projectList);
+    }
+    
+    @future(callout = true)
+    public static void sendRequest(List<Id> ptid){
+       CalloutService.sendEmails(ptid);
+    }    
     
     public void afterUpdate(Map<Id, SObject> newMap, Map<Id, SObject> oldMap){
         //send emails to the task owner and task assignee if aprropriate field is changed
@@ -27,16 +42,8 @@ public class ProjectTaskTriggerHandler implements ITriggerHandler{
             Boolean isStatusChanged = true; //TODO: check if status is changed
             Boolean isAssigneeChanged = true; //TODO: check if assignee is changed
             
-            if(newMap.get(newTask.id).Status__c!= oldMap.get(newTask.id).Status__c){
-                isStatusChanged = true;
-            }else{
-                isStatusChanged = false;
-            }
-            if(newMap.get(newTask.id).Assignee__c!= oldMap.get(newTask.id).Assignee__c){
-                isAssigneeChanged = true;
-            }else{
-                isAssigneeChanged = false;
-            }
+            isStatusChanged = newMap.get(newTask.id).Status__c!=oldMap.get(newTask.id).Status__c;
+            isAssigneeChanged = newMap.get(newTask.id).Assignee__c!=oldMap.get(newTask.id).Assignee__c;
             
             if(isStatusChanged){
                 //Prepare email message using the Messaging.SingleEmailMessage class
