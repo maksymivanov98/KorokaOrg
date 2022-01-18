@@ -151,16 +151,13 @@ export default class ChangeStatus extends NavigationMixin(LightningElement) {
     deleteTaskStatus(event){
         const taskId = event.target.id.substr(0,18);
         this.getidrecord = taskId;
-        this.deleteTask(this.getidrecord);
-       // this.showToast(this.getidrecord);
-
-
-
-       /* alert("Are you sure? " + getidrecord);
-        deleteTask({newTaskId: this.taskId}).then(result =>{
-            this.getTaskData();
-        });
-        console.log("Record is deleted");*/
+        if (confirm('Are you sure you want to delete this record?')) {
+            this.deleteTask(this.getidrecord);
+          } else {
+            // false
+          }
+        
+        
     }
     deleteTask(taskId){
         deleteTask({newTaskId: taskId}).then(result =>{
@@ -186,5 +183,6 @@ export default class ChangeStatus extends NavigationMixin(LightningElement) {
         });
         this.dispatchEvent(event);
     }
+
     
 }
