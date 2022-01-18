@@ -1,18 +1,36 @@
 <template>
     <lightning-layout vertical-align="stretch" multiple-rows="true" class="x-large">
-        
+
         <lightning-layout-item flexibility="auto" padding="around-small" class="custom-box">
-            <div class="slds-box slds-p-around_medium slds-text-align_center">
+           
                 <div class="slds-text-heading_large">New Task</div>
                 <template if:true={taskNewList}>
                     <template for:each={taskNewList} for:item="data">
-                        <div key={data.Id} draggable="true" id={data.Id} data-id={data.Id} ondragstart={taskDragStart} ondragend={taskDragEnd} class="slds-p-around_small">
-                            <lightning-card  variant="Narrow" title={data.Name} icon-name="standard:today">
-                            </lightning-card>
+                        <div key={data.Id} draggable="true" id={data.Id} data-id={data.Id} ondragstart={taskDragStart}
+                        ondragend={taskDragEnd} class="slds-p-around_small slds-align_absolute-center">
+                            <div class="card">
+                                <div class="slds-media__figure">
+                                    <span class="slds-icon_container slds-icon-standard-account info_left"
+                                        title="Description of icon when needed">
+                                        <lightning-icon icon-name="standard:today" alternative-text="Approved"
+                                            title="Approved"></lightning-icon>
+                                        <h1>{data.Name}</h1>
+                                    </span>
+                                </div>
+
+                                <div class="slds-clearfix">
+                                    <lightning-button-menu alternative-text="Show menu" class="slds-float_right" >
+                                        <lightning-menu-item class="btn" id={data.Id} data-id={data.Id} value="MenuItemOne" label="View Record" onclick={handleClick}></lightning-menu-item>
+                                        <lightning-menu-item class="btn" id={data.Id} data-id={data.Id} value="MenuItemTwo" label="Edit" onclick={editRecordStatus}></lightning-menu-item>
+                                        <lightning-menu-item class="btn" id={data.Id} data-id={data.Id} value="MenuItemThree" label="Delete" onclick={deleteTaskStatus}></lightning-menu-item>
+                                    </lightning-button-menu>
+                                </div>
+                            </div>
                         </div>
                     </template>
                 </template>
-            </div>
+            
+
         </lightning-layout-item>
 
         <lightning-layout-item flexibility="auto" padding="around-small" class="custom-box">
@@ -20,10 +38,30 @@
             <div id="InProgress" style="height:100%" data-role="drop-target" ondrop={handleDrop} ondragenter={handleDragEnter} ondragover={handleDragOver} ondragleave={handleDragLeave}>
                 <template if:true={taskInProgressList}>
                     <template for:each={taskInProgressList} for:item="data">
-                        <div key={data.Id} draggable="true" id={data.Id} data-id={data.Id} ondragstart={taskDragStart} ondragend={taskDragEnd} class="slds-p-around_small">
-                            <lightning-card style="width: 50px;"  variant="Narrow" title={data.Name} icon-name="custom:custom18">
-                            </lightning-card>
+                        <div key={data.Id} draggable="true" id={data.Id} data-id={data.Id} ondragstart={taskDragStart} ondragend={taskDragEnd} class="slds-p-around_small slds-align_absolute-center">
+                       
+
+                            <div class="card">
+                                <div class="slds-media__figure">
+                                    <span class="slds-icon_container slds-icon-standard-account info_left"
+                                        title="Description of icon when needed">
+                                        <lightning-icon icon-name="custom:custom18" alternative-text="Approved"
+                                            title="Approved"></lightning-icon>
+                                        <h1>{data.Name}</h1>
+                                    </span>
+                                </div>
+
+                                <div class="slds-clearfix">
+                                    <lightning-button-menu alternative-text="Show menu" class="slds-float_right" >
+                                        <lightning-menu-item class="btn" id={data.Id} data-id={data.Id} value="MenuItemOne" label="View Record" onclick={handleClick}></lightning-menu-item>
+                                        <lightning-menu-item class="btn" id={data.Id} data-id={data.Id} value="MenuItemTwo" label="Edit" onclick={editRecordStatus}></lightning-menu-item>
+                                        <lightning-menu-item class="btn" id={data.Id} data-id={data.Id} value="MenuItemThree" label="Delete" onclick={deleteTaskStatus}></lightning-menu-item>
+                                    </lightning-button-menu>
+                                </div>
+                            </div>
+
                         </div>
+                        
                     </template>
                 </template>
             </div>
@@ -34,11 +72,25 @@
             <div id="Completed" style="height:100%" data-role="drop-target" ondrop={handleDrop} ondragenter={handleDragEnter} ondragover={handleDragOver} ondragleave={handleDragLeave}>
                 <template if:true={taskCompletedList}>
                     <template for:each={taskCompletedList} for:item="data">
-                        <div key={data.Id} draggable="true" id={data.Id} data-id={data.Id} ondragstart={taskDragStart} ondragend={taskDragEnd} class="slds-p-around_small">
-                            <lightning-card style="width: 50px;"  variant="Narrow" title={data.Name} icon-name="standard:resource_preference">
-                                <div class="slds-p-horizontal_small">
+                        <div key={data.Id} draggable="true" id={data.Id} data-id={data.Id} ondragstart={taskDragStart} ondragend={taskDragEnd} class="slds-p-around_small slds-align_absolute-center">
+                            <div class="card">
+                                <div class="slds-media__figure">
+                                    <span class="slds-icon_container slds-icon-standard-account info_left"
+                                        title="Description of icon when needed">
+                                        <lightning-icon icon-name="standard:resource_preference" alternative-text="Approved"
+                                            title="Approved"></lightning-icon>
+                                        <h1>{data.Name}</h1>
+                                    </span>
                                 </div>
-                            </lightning-card>
+
+                                <div class="slds-clearfix">
+                                    <lightning-button-menu alternative-text="Show menu" class="slds-float_right" >
+                                        <lightning-menu-item class="btn" id={data.Id} data-id={data.Id} value="MenuItemOne" label="View Record" onclick={handleClick}></lightning-menu-item>
+                                        <lightning-menu-item class="btn" id={data.Id} data-id={data.Id} value="MenuItemTwo" label="Edit" onclick={editRecordStatus}></lightning-menu-item>
+                                        <lightning-menu-item class="btn" id={data.Id} data-id={data.Id} value="MenuItemThree" label="Delete" onclick={deleteTaskStatus}></lightning-menu-item>
+                                    </lightning-button-menu>
+                                </div>
+                            </div>
                         </div>
                     </template>
                 </template>

@@ -1,20 +1,32 @@
-import { LightningElement, track, wire } from 'lwc';
+import { LightningElement, api, track, wire } from 'lwc';
+import { NavigationMixin } from 'lightning/navigation';
+
 import getProjectTask from '@salesforce/apex/ProjectTaskController.getProjectTask';
 import updateTask from '@salesforce/apex/ProjectTaskController.updateTask';
 
-export default class ChangeStatus extends LightningElement {
+import deleteTask from '@salesforce/apex/ProjectTaskController.deleteTask';
+
+
+
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+
+export default class ChangeStatus extends NavigationMixin(LightningElement) {
 
     @track taskNewList = [];
     @track taskInProgressList = [];
     @track taskCompletedList = [];
     @track dropTaskId;
 
+    @api recordId;
+    @track getidrecord;
+
+
     connectedCallback(){
         this.getTaskData();
     }
 
     getTaskData(){
-        getProjectTask().then(result =>{
+        getProjectTask({recordId : this.recordId }).then(result =>{
             let taskNewData = [];
             let taskInProgressData = [];
             let taskCompletedData = [];
@@ -106,5 +118,73 @@ export default class ChangeStatus extends LightningElement {
         if (event.preventDefault) event.preventDefault();
         return false;
     };
+
+    handleClick(event){ //button delete;
+        const taskId = event.target.id.substr(0,18);
+        this.getidrecord = taskId;
+        this.goToRecordPage(this.getidrecord);
+    }
+    goToRecordPage(taskId){
+        this[NavigationMixin.Navigate]({
+            type: 'standard__recordPage',
+            attributes: {
+                recordId: taskId,
+                objectApiName: 'Project_Task__c',
+                actionName: 'view'
+            }
+        });
+    }
+    editRecordStatus(event){ //button delete;
+        const taskId = event.target.id.substr(0,18);
+        this.getidrecord = taskId;
+        this.editRecord(this.getidrecord);
+    }
+    editRecord(taskId){
+        this[NavigationMixin.Navigate]({
+            type: "standard__recordPage",
+            attributes: {
+                recordId: taskId,
+                actionName: "edit"
+            }  
+        });
+    }
+    deleteTaskStatus(event){
+        const taskId = event.target.id.substr(0,18);
+        this.getidrecord = taskId;
+        this.deleteTask(this.getidrecord);
+       // this.showToast(this.getidrecord);
+
+
+
+       /* alert("Are you sure? " + getidrecord);
+        deleteTask({newTaskId: this.taskId}).then(result =>{
+            this.getTaskData();
+        });
+        console.log("Record is deleted");*/
+    }
+    deleteTask(taskId){
+        deleteTask({newTaskId: taskId}).then(result =>{
+            this.getTaskData();
+        });
+    }
+
+
+    getId(event) {
+        const taskId = event.target.id.substr(0,18);
+        this.getidrecord = taskId;
+        //this.showToast(this.getidrecord);
+        //this.deleteTaskStatus(this.getidrecord);
+    }
+
+
+    showToast(taskId) {
+        const event = new ShowToastEvent({
+            title: 'Toast message',
+            message: taskId,
+            variant: 'success',
+            mode: 'dismissable'
+        });
+        this.dispatchEvent(event);
+    }
     
 }
