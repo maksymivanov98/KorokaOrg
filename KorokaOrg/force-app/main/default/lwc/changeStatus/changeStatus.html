@@ -1,7 +1,7 @@
 <template>
     <lightning-layout vertical-align="stretch" multiple-rows="true" class="x-large">
 
-        <lightning-layout-item flexibility="auto" padding="around-small" class="custom-box">
+        <lightning-layout-item flexibility="auto" padding="around-small" class="custom-box custom-border-radius-left">
            
                 <div class="slds-text-heading_large">New Task</div>
                 <template if:true={taskNewList}>
@@ -67,7 +67,7 @@
             </div>
         </lightning-layout-item>
 
-        <lightning-layout-item flexibility="auto" padding="around-small" class="custom-box">
+        <lightning-layout-item flexibility="auto" padding="around-small" class="custom-box custom-border-radius-right">
             <div class="slds-text-heading_large">Completed Task</div>
             <div id="Completed" style="height:100%" data-role="drop-target" ondrop={handleDrop} ondragenter={handleDragEnter} ondragover={handleDragOver} ondragleave={handleDragLeave}>
                 <template if:true={taskCompletedList}>

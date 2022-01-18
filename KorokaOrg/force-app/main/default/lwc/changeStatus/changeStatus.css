@@ -6,7 +6,8 @@
     text-align: center;
     background-color: #f4f6f9;
     border: 1px solid #d8dde6;
-
+    padding-left: 5px;
+    padding-right: 5px;
 }
 .drag {
     border-style: solid dotted;
@@ -47,4 +48,12 @@
     padding-left: 5px;
     padding-right: 5px;
     width: 258px;
+}
+.custom-border-radius-left{
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.custom-border-radius-right{
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
