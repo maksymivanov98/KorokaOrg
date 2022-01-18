@@ -57,7 +57,7 @@ export default class ChangeStatus extends NavigationMixin(LightningElement) {
         //window.alert(taskId);
         this.dropTaskId = taskId;
         let draggableElement = this.template.querySelector('[data-id="' + taskId + '"]');
-        draggableElement.classList.add('drag');
+      //  draggableElement.classList.add('drag');
         this.handleTaskDrag(taskId);
     }
 
@@ -65,7 +65,7 @@ export default class ChangeStatus extends NavigationMixin(LightningElement) {
         const taskId = event.target.id.substr(0,18);
         //window.alert(taskId);
         let draggableElement = this.template.querySelector('[data-id="' + taskId + '"]');
-        draggableElement.classList.remove('drag');
+      //  draggableElement.classList.remove('drag');
     }
 
     handleDrop(event){
@@ -82,7 +82,7 @@ export default class ChangeStatus extends NavigationMixin(LightningElement) {
         //window.alert(columnUsed + ' & '+ taskNewStatus);
         this.updateTaskStatus(this.dropTaskId, taskNewStatus);
         let draggableElement = this.template.querySelector('[data-role="drop-target"]');
-        draggableElement.classList.remove('over');
+       // draggableElement.classList.remove('over');
     }
 
     handleDragEnter(event){
@@ -92,13 +92,13 @@ export default class ChangeStatus extends NavigationMixin(LightningElement) {
     handleDragOver(event){
         this.cancel(event);
         let draggableElement = this.template.querySelector('[data-role="drop-target"]');
-        draggableElement.classList.add('over');
+      //  draggableElement.classList.add('over');
     }
 
     handleDragLeave(event){
         this.cancel(event);
         let draggableElement = this.template.querySelector('[data-role="drop-target"]');
-        draggableElement.classList.remove('over');
+      //  draggableElement.classList.remove('over');
     }
 
     handleTaskDrag(taskId){
